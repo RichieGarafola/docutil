@@ -1,6 +1,13 @@
 
 # docutil
 
+![CI](https://github.com/RichieGarafola/docutil/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/github/license/RichieGarafola/docutil)
+![Tests](https://img.shields.io/badge/tests-pytest-success)
+![Style](https://img.shields.io/badge/lint-ruff-informational)
+![Types](https://img.shields.io/badge/types-mypy-informational)
+
 **Enterprise‑grade document automation toolkit for deterministic DOCX and Markdown workflows.**
 
 docutil is a lightweight, CLI‑first Python utility built for engineers, analysts, and automation teams who need **repeatable, scriptable, CI‑safe document processing**.
