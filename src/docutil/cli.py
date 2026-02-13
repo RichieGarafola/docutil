@@ -20,19 +20,17 @@ Design Goals
 import json
 import logging
 from pathlib import Path
-from typing import Optional
 
 import typer
 
 from docutil import __version__
-from docutil.logging_utils import configure_logging
+from docutil.conversions.batch import batch_convert
 from docutil.conversions.docx_to_markdown import docx_to_markdown
 from docutil.conversions.markdown_to_docx import markdown_to_docx
-from docutil.conversions.batch import batch_convert
-from docutil.inspect.docx_metadata import inspect_docx_metadata
-from docutil.templates import scaffold_project
 from docutil.doctor import doctor as doctor_cmd
-
+from docutil.inspect.docx_metadata import inspect_docx_metadata
+from docutil.logging_utils import configure_logging
+from docutil.templates import scaffold_project
 
 # -----------------------------------------------------------------------------
 # Typer App Setup
@@ -79,7 +77,7 @@ def version() -> None:
 @app.command("docx2md")
 def cli_docx2md(
     input_path: Path = typer.Argument(..., exists=True),
-    output_path: Optional[Path] = None,
+    output_path: Path | None = None,
     force: bool = typer.Option(False, "--force", help="Overwrite existing output"),
 ) -> None:
     """Convert DOCX → Markdown."""
@@ -94,7 +92,7 @@ def cli_docx2md(
 @app.command("md2docx")
 def cli_md2docx(
     input_path: Path = typer.Argument(..., exists=True),
-    output_path: Optional[Path] = None,
+    output_path: Path | None = None,
     force: bool = typer.Option(False, "--force", help="Overwrite existing output"),
 ) -> None:
     """Convert Markdown → DOCX."""
@@ -118,7 +116,7 @@ def cli_batch(
     recursive: bool = False,
     dry_run: bool = False,
     force: bool = False,
-    out_folder: Optional[Path] = typer.Option(None, "--out-folder"),
+    out_folder: Path | None = typer.Option(None, "--out-folder"),
     no_progress: bool = typer.Option(False, "--no-progress"),
     workers: int = typer.Option(1, "--workers"),
 ):
@@ -197,7 +195,7 @@ def cli_scaffold(
 @app.callback()
 def _main(
     verbose: bool = typer.Option(False, "--verbose"),
-    log_file: Optional[Path] = typer.Option(None, "--log-file"),
+    log_file: Path | None = typer.Option(None, "--log-file"),
 ):
     configure_logging(
         level=logging.DEBUG if verbose else logging.INFO,

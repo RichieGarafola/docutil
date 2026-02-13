@@ -1,4 +1,5 @@
 from typer.testing import CliRunner
+
 from docutil.cli import app
 
 runner = CliRunner()

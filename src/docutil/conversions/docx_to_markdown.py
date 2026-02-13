@@ -2,15 +2,15 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Optional
 
 import pypandoc
+
 from docutil.pandoc_utils import require_pandoc
 
 logger = logging.getLogger(__name__)
 
 
-def docx_to_markdown(input_path: Path | str, output_path: Optional[Path | str] = None) -> Path:
+def docx_to_markdown(input_path: Path | str, output_path: Path | str | None = None) -> Path:
     """
     Convert a .docx file to GitHub-Flavored Markdown (GFM).
 

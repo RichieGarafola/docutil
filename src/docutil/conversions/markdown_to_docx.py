@@ -2,15 +2,15 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Optional
 
 import pypandoc
+
 from docutil.pandoc_utils import require_pandoc
 
 logger = logging.getLogger(__name__)
 
 
-def markdown_to_docx(input_path: Path | str, output_path: Optional[Path | str] = None) -> Path:
+def markdown_to_docx(input_path: Path | str, output_path: Path | str | None = None) -> Path:
     """Convert Markdown → DOCX."""
     require_pandoc()
 

@@ -5,7 +5,6 @@ from __future__ import annotations
 import logging
 import shutil
 from dataclasses import dataclass
-from typing import Optional
 
 import pypandoc
 from packaging.version import Version
@@ -30,8 +29,8 @@ class PandocStatus:
     """
 
     available: bool
-    path: Optional[str]
-    version: Optional[str]
+    path: str | None
+    version: str | None
 
 
 def get_pandoc_status() -> PandocStatus:

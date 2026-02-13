@@ -17,11 +17,10 @@ Features
 """
 
 import logging
-import os
 import sys
+from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import Callable, Iterable, Optional
 
 from tqdm import tqdm
 
@@ -46,9 +45,9 @@ def iter_files(folder: Path, suffix: str, recursive: bool) -> Iterable[Path]:
 def batch_convert(
     input_folder: Path | str,
     suffix: str,
-    converter: Callable[[Path, Optional[Path]], Path],
+    converter: Callable[[Path, Path | None], Path],
     *,
-    output_folder: Optional[Path | str] = None,
+    output_folder: Path | str | None = None,
     recursive: bool = False,
     dry_run: bool = False,
     force: bool = False,
@@ -96,7 +95,7 @@ def batch_convert(
 
     results: list[Path] = []
 
-    def build_output_path(src: Path) -> Optional[Path]:
+    def build_output_path(src: Path) -> Path | None:
         if not output_folder:
             return None
 

@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -11,11 +10,11 @@ logger = logging.getLogger(__name__)
 @dataclass(frozen=True)
 class DocxMetadata:
     path: str
-    title: Optional[str]
-    author: Optional[str]
-    last_modified_by: Optional[str]
-    created: Optional[str]
-    modified: Optional[str]
+    title: str | None
+    author: str | None
+    last_modified_by: str | None
+    created: str | None
+    modified: str | None
 
 
 def inspect_docx_metadata(input_path: Path | str) -> DocxMetadata:

@@ -20,8 +20,6 @@ Design Goals
 
 import logging
 from pathlib import Path
-from typing import Optional
-
 
 DEFAULT_FMT = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
 
@@ -29,7 +27,7 @@ DEFAULT_FMT = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
 def configure_logging(
     *,
     level: int = logging.INFO,
-    log_file: Optional[Path | str] = None,
+    log_file: Path | str | None = None,
 ) -> logging.Logger:
     """
     Configure console + optional file logging.

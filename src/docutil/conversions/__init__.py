@@ -13,9 +13,9 @@ All converters:
 
 from __future__ import annotations
 
+from .batch import batch_convert
 from .docx_to_markdown import docx_to_markdown
 from .markdown_to_docx import markdown_to_docx
-from .batch import batch_convert
 
 __all__ = [
     "docx_to_markdown",
