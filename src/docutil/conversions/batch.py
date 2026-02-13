@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 # File discovery
 # -----------------------------------------------------------------------------
 
+
 def iter_files(folder: Path, suffix: str, recursive: bool) -> Iterable[Path]:
     pattern = f"**/*{suffix}" if recursive else f"*{suffix}"
     yield from folder.glob(pattern)
@@ -40,6 +41,7 @@ def iter_files(folder: Path, suffix: str, recursive: bool) -> Iterable[Path]:
 # -----------------------------------------------------------------------------
 # Core batch runner
 # -----------------------------------------------------------------------------
+
 
 def batch_convert(
     input_folder: Path | str,

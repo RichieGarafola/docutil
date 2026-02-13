@@ -49,7 +49,9 @@ def inspect_docx_metadata(input_path: Path | str) -> DocxMetadata:
         author=getattr(props, "author", None),
         last_modified_by=getattr(props, "last_modified_by", None),
         created=str(getattr(props, "created", None)) if getattr(props, "created", None) else None,
-        modified=str(getattr(props, "modified", None)) if getattr(props, "modified", None) else None,
+        modified=str(getattr(props, "modified", None))
+        if getattr(props, "modified", None)
+        else None,
     )
 
     logger.info("DOCX metadata extracted: %s", asdict(meta))

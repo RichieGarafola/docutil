@@ -42,6 +42,7 @@ __all__ = ["scaffold_project"]
 # Internal helpers
 # -----------------------------------------------------------------------------
 
+
 def _safe_write(path: Path, content: str, *, force: bool = False) -> None:
     """
     Write text file safely.
@@ -65,6 +66,7 @@ def _create_dirs(dirs: Iterable[Path]) -> None:
 # -----------------------------------------------------------------------------
 # Public API
 # -----------------------------------------------------------------------------
+
 
 def scaffold_project(
     project_name: str,
@@ -137,15 +139,7 @@ def scaffold_project(
     # ------------------------------------------------------------------
 
     gitignore_content = (
-        ".venv/\n"
-        "__pycache__/\n"
-        "*.pyc\n"
-        ".DS_Store\n"
-        ".idea/\n"
-        ".vscode/\n"
-        "build/\n"
-        "dist/\n"
-        "*.log\n"
+        ".venv/\n__pycache__/\n*.pyc\n.DS_Store\n.idea/\n.vscode/\nbuild/\ndist/\n*.log\n"
     )
 
     _safe_write(root / ".gitignore", gitignore_content, force=force)

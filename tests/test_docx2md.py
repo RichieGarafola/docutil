@@ -1,5 +1,6 @@
-from unittest.mock import patch
 from pathlib import Path
+from unittest.mock import patch
+
 from docutil.conversions.docx_to_markdown import docx_to_markdown
 
 

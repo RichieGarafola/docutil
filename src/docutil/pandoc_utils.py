@@ -28,6 +28,7 @@ class PandocStatus:
     version : str | None
         Version string if available.
     """
+
     available: bool
     path: Optional[str]
     version: Optional[str]
@@ -57,15 +58,11 @@ def require_pandoc() -> None:
     path = shutil.which("pandoc")
 
     if not path:
-        raise RuntimeError(
-            "Pandoc not found. Install via:\nconda install -c conda-forge pandoc"
-        )
+        raise RuntimeError("Pandoc not found. Install via:\nconda install -c conda-forge pandoc")
 
     version = Version(str(pypandoc.get_pandoc_version()))
 
     if version < MIN_PANDOC_VERSION:
-        raise RuntimeError(
-            f"Pandoc >= {MIN_PANDOC_VERSION} required (found {version})"
-        )
+        raise RuntimeError(f"Pandoc >= {MIN_PANDOC_VERSION} required (found {version})")
 
     logger.debug("Pandoc OK: %s (%s)", path, version)

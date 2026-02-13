@@ -51,6 +51,7 @@ logger = logging.getLogger(__name__)
 # Global Options
 # -----------------------------------------------------------------------------
 
+
 @app.callback()
 def _main(
     verbose: bool = typer.Option(False, "--verbose", help="Enable debug logging"),
@@ -63,6 +64,7 @@ def _main(
 # Version
 # -----------------------------------------------------------------------------
 
+
 @app.command()
 def version() -> None:
     """Print installed docutil version."""
@@ -72,6 +74,7 @@ def version() -> None:
 # -----------------------------------------------------------------------------
 # Single File Conversions
 # -----------------------------------------------------------------------------
+
 
 @app.command("docx2md")
 def cli_docx2md(
@@ -106,6 +109,7 @@ def cli_md2docx(
 # -----------------------------------------------------------------------------
 # Batch Conversion
 # -----------------------------------------------------------------------------
+
 
 @app.command("batch")
 def cli_batch(
@@ -149,6 +153,7 @@ def cli_batch(
 # Inspect Commands
 # -----------------------------------------------------------------------------
 
+
 @inspect_app.command("docx")
 def cli_inspect_docx(
     path: Path = typer.Argument(..., exists=True),
@@ -168,6 +173,7 @@ def cli_inspect_docx(
 # Scaffolding
 # -----------------------------------------------------------------------------
 
+
 @app.command("scaffold")
 def cli_scaffold(
     kind: str = typer.Argument(...),
@@ -182,9 +188,11 @@ def cli_scaffold(
 
     typer.echo(scaffold_project(name, out_dir, force=force))
 
+
 # -----------------------------------------------------------------------------
 # Callback
 # -----------------------------------------------------------------------------
+
 
 @app.callback()
 def _main(
@@ -195,4 +203,3 @@ def _main(
         level=logging.DEBUG if verbose else logging.INFO,
         log_file=log_file,
     )
-
