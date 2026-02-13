@@ -1,0 +1,32 @@
+repos:
+  # ---------------------------
+  # Ruff (lint + formatting)
+  # ---------------------------
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.5.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # ---------------------------
+  # Mypy (type checking)
+  # ---------------------------
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.0
+    hooks:
+      - id: mypy
+        pass_filenames: false
+
+
+  # ---------------------------
+  # Pytest (tests)
+  # ---------------------------
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest -q
+        language: system
+        types: [python]
+        pass_filenames: false

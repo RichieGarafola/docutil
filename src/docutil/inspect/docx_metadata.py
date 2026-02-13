@@ -33,7 +33,7 @@ def inspect_docx_metadata(input_path: Path | str) -> DocxMetadata:
         raise ValueError("Input file must be a .docx document.")
 
     try:
-        from docx import Document  # type: ignore
+        from docx import Document
     except Exception as exc:
         raise RuntimeError(
             "python-docx is not installed. Install with: pip install '.[docx]'"

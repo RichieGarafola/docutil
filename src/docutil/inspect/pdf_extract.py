@@ -30,7 +30,7 @@ def extract_pdf_text(input_path: Path | str) -> PdfExtractResult:
         raise ValueError("Input file must be a .pdf document.")
 
     try:
-        import fitz  # type: ignore
+        import fitz
     except Exception as exc:
         raise RuntimeError("PyMuPDF not installed. Install with: pip install '.[pdf]'") from exc
 

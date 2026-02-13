@@ -27,7 +27,7 @@ from docutil import __version__
 from docutil.conversions.batch import batch_convert
 from docutil.conversions.docx_to_markdown import docx_to_markdown
 from docutil.conversions.markdown_to_docx import markdown_to_docx
-from docutil.doctor import doctor as doctor_cmd
+from docutil.doctor import app as doctor_app
 from docutil.inspect.docx_metadata import inspect_docx_metadata
 from docutil.logging_utils import configure_logging
 from docutil.templates import scaffold_project
@@ -40,7 +40,7 @@ app = typer.Typer(add_completion=False)
 inspect_app = typer.Typer(add_completion=False)
 
 app.add_typer(inspect_app, name="inspect")
-app.add_typer(doctor_cmd, name="doctor")
+app.add_typer(doctor_app, name="doctor")
 
 logger = logging.getLogger(__name__)
 
@@ -52,10 +52,13 @@ logger = logging.getLogger(__name__)
 
 @app.callback()
 def _main(
-    verbose: bool = typer.Option(False, "--verbose", help="Enable debug logging"),
+    verbose: bool = typer.Option(False, "--verbose"),
+    log_file: Path | None = typer.Option(None, "--log-file"),
 ) -> None:
-    """docutil — Enterprise document automation toolkit."""
-    configure_logging(level=logging.DEBUG if verbose else logging.INFO)
+    configure_logging(
+        level=logging.DEBUG if verbose else logging.INFO,
+        log_file=log_file,
+    )
 
 
 # -----------------------------------------------------------------------------
@@ -119,7 +122,7 @@ def cli_batch(
     out_folder: Path | None = typer.Option(None, "--out-folder"),
     no_progress: bool = typer.Option(False, "--no-progress"),
     workers: int = typer.Option(1, "--workers"),
-):
+) -> None:
     """
     Batch convert files inside a folder.
     """
@@ -185,19 +188,3 @@ def cli_scaffold(
         raise typer.BadParameter("Only 'project' supported.")
 
     typer.echo(scaffold_project(name, out_dir, force=force))
-
-
-# -----------------------------------------------------------------------------
-# Callback
-# -----------------------------------------------------------------------------
-
-
-@app.callback()
-def _main(
-    verbose: bool = typer.Option(False, "--verbose"),
-    log_file: Path | None = typer.Option(None, "--log-file"),
-):
-    configure_logging(
-        level=logging.DEBUG if verbose else logging.INFO,
-        log_file=log_file,
-    )
