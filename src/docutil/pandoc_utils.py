@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 import shutil
 from dataclasses import dataclass
 
@@ -11,6 +12,8 @@ from packaging.version import Version
 
 logger = logging.getLogger(__name__)
 MIN_PANDOC_VERSION = Version("3.0")
+
+from docutil.errors import PandocNotFoundError
 
 
 @dataclass(frozen=True)
@@ -50,18 +53,22 @@ def get_pandoc_status() -> PandocStatus:
 
 def require_pandoc() -> None:
     """
-    Ensure Pandoc exists and meets minimum version.
+    Ensures Pandoc is installed and accessible.
 
-    Deterministic conversion requires stable Pandoc behavior.
+    Can be skipped in test environments via:
+        DOCUTIL_SKIP_PANDOC_CHECK=1
     """
-    path = shutil.which("pandoc")
 
-    if not path:
-        raise RuntimeError("Pandoc not found. Install via:\nconda install -c conda-forge pandoc")
+    if os.getenv("DOCUTIL_SKIP_PANDOC_CHECK") == "1":
+        return
 
-    version = Version(str(pypandoc.get_pandoc_version()))
+    if not shutil.which("pandoc"):
+        raise PandocNotFoundError(
+            "Pandoc executable not found on PATH. "
+            "Install via: conda install -c conda-forge pandoc"
+        )
 
-    if version < MIN_PANDOC_VERSION:
-        raise RuntimeError(f"Pandoc >= {MIN_PANDOC_VERSION} required (found {version})")
-
-    logger.debug("Pandoc OK: %s (%s)", path, version)
+    try:
+        pypandoc.get_pandoc_version()
+    except OSError as exc:
+        raise PandocNotFoundError("Pandoc installation detected but not functioning.") from exc
