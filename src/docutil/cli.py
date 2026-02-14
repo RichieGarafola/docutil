@@ -27,7 +27,7 @@ from docutil import __version__
 from docutil.conversions.batch import batch_convert
 from docutil.conversions.docx_to_markdown import docx_to_markdown
 from docutil.conversions.markdown_to_docx import markdown_to_docx
-from docutil.doctor import app as doctor_app
+from docutil.doctor import run_doctor
 from docutil.inspect.docx_metadata import inspect_docx_metadata
 from docutil.logging_utils import configure_logging
 from docutil.templates import scaffold_project
@@ -40,9 +40,14 @@ app = typer.Typer(add_completion=False)
 inspect_app = typer.Typer(add_completion=False)
 
 app.add_typer(inspect_app, name="inspect")
-app.add_typer(doctor_app, name="doctor")
 
 logger = logging.getLogger(__name__)
+
+
+@app.command()
+def doctor() -> None:
+    """Run environment diagnostics."""
+    run_doctor()
 
 
 # -----------------------------------------------------------------------------

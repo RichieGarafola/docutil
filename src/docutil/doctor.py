@@ -24,11 +24,7 @@ import platform
 import shutil
 from pathlib import Path
 
-import typer
-
 from docutil.pandoc_utils import get_pandoc_status
-
-app = typer.Typer(add_completion=False)
 
 
 def _check_write_permissions() -> bool:
@@ -41,36 +37,27 @@ def _check_write_permissions() -> bool:
         return False
 
 
-@app.command()
-def doctor() -> None:
+def run_doctor() -> None:
     """Run environment diagnostics."""
 
-    typer.echo("docutil environment check\n")
+    print("docutil environment check\n")
 
-    # ---------------------------------------------------------
     # Python
-    # ---------------------------------------------------------
-    typer.echo(f"Python: {platform.python_version()}  ✓")
+    print(f"Python: {platform.python_version()}  ✓")
 
-    # ---------------------------------------------------------
     # Pandoc
-    # ---------------------------------------------------------
     status = get_pandoc_status()
     if status.available:
-        typer.echo(f"Pandoc: {status.version or 'found'}  ✓")
+        print(f"Pandoc: {status.version or 'found'}  ✓")
     else:
-        typer.echo("Pandoc: NOT FOUND  ✗")
-        typer.echo("  Install: conda install -c conda-forge pandoc")
+        print("Pandoc: NOT FOUND  ✗")
+        print("  Install: conda install -c conda-forge pandoc")
 
-    # ---------------------------------------------------------
     # Write permissions
-    # ---------------------------------------------------------
     if _check_write_permissions():
-        typer.echo("Write permissions: ✓")
+        print("Write permissions: ✓")
     else:
-        typer.echo("Write permissions: ✗")
+        print("Write permissions: ✗")
 
-    # ---------------------------------------------------------
     # PATH
-    # ---------------------------------------------------------
-    typer.echo(f"pandoc path: {shutil.which('pandoc')}")
+    print(f"pandoc path: {shutil.which('pandoc')}")
