@@ -64,8 +64,7 @@ def require_pandoc() -> None:
 
     if not shutil.which("pandoc"):
         raise PandocNotFoundError(
-            "Pandoc executable not found on PATH. "
-            "Install via: conda install -c conda-forge pandoc"
+            "Pandoc executable not found on PATH. Install via: conda install -c conda-forge pandoc"
         )
 
     try:
