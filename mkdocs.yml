@@ -1,0 +1,51 @@
+site_name: docutil
+site_description: Enterprise Document Utility Toolkit
+site_author: Richie Garafola
+repo_url: https://github.com/RichieGarafola/docutil
+repo_name: RichieGarafola/docutil
+
+docs_dir: docs
+strict: true
+
+theme:
+  name: material
+  language: en
+  palette:
+    - scheme: default
+      primary: blue
+      accent: deep orange
+  features:
+    - navigation.sections
+    - navigation.instant
+    - navigation.top
+    - content.code.copy
+    - content.tabs.link
+    - content.action.edit
+    - search.suggest
+    - search.highlight
+
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - CLI Reference: cli-reference.md
+  - Versioning System: versioning.md
+  - Architecture: architecture.md
+  - Contributing: contributing.md
+  - Changelog: CHANGELOG.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - tables
+  - attr_list
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/RichieGarafola/docutil
+
+copyright: Copyright © 2026 Richie Garafola
