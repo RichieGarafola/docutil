@@ -32,7 +32,26 @@ nav:
   - Versioning System: versioning.md
   - Architecture: architecture.md
   - Contributing: contributing.md
-  - Changelog: CHANGELOG.md
+  - Change Log: CHANGELOG.md
+
+  - Architecture (Technical):
+      - Technical Design: architecture/technical-design.md
+
+  - Planning:
+      - Project Charter: planning/project-charter.md
+      - Requirements: planning/requirements.md
+      - Timeline: planning/timeline.md
+      - Risk Register: planning/risk-register.md
+      - Deployment Plan: planning/deployment-plan.md
+      - Post Implementation Review: planning/post-implementation-review.md
+
+  - QA:
+      - Test Plan: qa/test-plan.md
+      - CLI Functional Guide: qa/cli-functional-test-guide.md
+      - QA Signoff: qa/qa-signoff.md
+
+  - Training:
+      - Training Plan: training/training-plan.md
 
 markdown_extensions:
   - admonition
