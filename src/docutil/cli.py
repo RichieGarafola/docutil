@@ -85,7 +85,7 @@ def version() -> None:
 @app.command("docx2md")
 def cli_docx2md(
     input_path: Path = typer.Argument(..., exists=True),
-    output_path: Path | None = None,
+    output_path: Path | None = typer.Argument(None),
     force: bool = typer.Option(False, "--force", help="Overwrite existing output"),
 ) -> None:
     """Convert DOCX → Markdown."""
@@ -100,7 +100,7 @@ def cli_docx2md(
 @app.command("md2docx")
 def cli_md2docx(
     input_path: Path = typer.Argument(..., exists=True),
-    output_path: Path | None = None,
+    output_path: Path | None = typer.Argument(None),
     force: bool = typer.Option(False, "--force", help="Overwrite existing output"),
 ) -> None:
     """Convert Markdown → DOCX."""
