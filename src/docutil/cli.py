@@ -36,7 +36,22 @@ from docutil.templates import scaffold_project
 # Typer App Setup
 # -----------------------------------------------------------------------------
 
-app = typer.Typer(add_completion=False)
+app = typer.Typer(
+    add_completion=False,
+    help="""
+    docutil — Enterprise Document Utility Toolkit
+    
+    Convert, inspect, and scaffold document workflows powered by Pandoc.
+    
+    Common Commands:
+      docutil doctor
+      docutil version
+      docutil docx2md input.docx
+      docutil batch docx2md ./docs --recursive
+      docutil inspect docx file.docx
+    """,
+)
+
 inspect_app = typer.Typer(add_completion=False)
 
 app.add_typer(inspect_app, name="inspect")
@@ -46,7 +61,17 @@ logger = logging.getLogger(__name__)
 
 @app.command()
 def doctor() -> None:
-    """Run environment diagnostics."""
+    """
+    Validate local environment configuration.
+
+    Checks:
+      • Python version
+      • Pandoc availability
+      • Write permissions
+      • PATH resolution
+
+    Safe to run in CI environments.
+    """
     run_doctor()
 
 
@@ -88,7 +113,12 @@ def cli_docx2md(
     output_path: Path | None = typer.Argument(None),
     force: bool = typer.Option(False, "--force", help="Overwrite existing output"),
 ) -> None:
-    """Convert DOCX → Markdown."""
+    """Convert DOCX → Markdown.
+    Examples:
+      docutil docx2md input.docx
+      docutil docx2md input.docx output.md
+      docutil docx2md input.docx output.md --force
+    """
 
     if output_path and output_path.exists() and not force:
         typer.echo("Output exists. Use --force to overwrite.")
@@ -130,6 +160,15 @@ def cli_batch(
 ) -> None:
     """
     Batch convert files inside a folder.
+
+    Modes:
+      docx2md  Convert all .docx files to Markdown
+      md2docx  Convert all .md files to DOCX
+
+    Examples:
+      docutil batch docx2md ./docs
+      docutil batch docx2md ./docs --recursive
+      docutil batch docx2md ./docs --out-folder ./converted
     """
 
     modes = {
@@ -187,8 +226,15 @@ def cli_scaffold(
     out_dir: Path = typer.Argument(...),
     force: bool = typer.Option(False, "--force"),
 ) -> None:
-    """Generate a project template skeleton."""
+    """
+    Generate a project template skeleton.
 
+    Currently supported:
+      project
+
+    Example:
+      docutil scaffold project MyProject ./output
+    """
     if kind != "project":
         raise typer.BadParameter("Only 'project' supported.")
 
