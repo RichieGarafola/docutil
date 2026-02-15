@@ -20,6 +20,7 @@ Design Goals
 import json
 import logging
 from pathlib import Path
+from typing import Literal
 
 import typer
 
@@ -39,17 +40,17 @@ from docutil.templates import scaffold_project
 app = typer.Typer(
     add_completion=False,
     help="""
-    docutil — Enterprise Document Utility Toolkit
-    
-    Convert, inspect, and scaffold document workflows powered by Pandoc.
-    
-    Common Commands:
-      docutil doctor
-      docutil version
-      docutil docx2md input.docx
-      docutil batch docx2md ./docs --recursive
-      docutil inspect docx file.docx
-    """,
+docutil — Enterprise Document Utility Toolkit
+
+Convert, inspect, and scaffold document workflows powered by Pandoc.
+
+Common Commands:
+  docutil doctor
+  docutil version
+  docutil docx2md input.docx
+  docutil batch docx2md ./docs --recursive
+  docutil inspect docx file.docx
+""",
 )
 
 inspect_app = typer.Typer(add_completion=False)
@@ -109,11 +110,20 @@ def version() -> None:
 
 @app.command("docx2md")
 def cli_docx2md(
-    input_path: Path = typer.Argument(..., exists=True),
-    output_path: Path | None = typer.Argument(None),
+    input_path: Path = typer.Argument(
+        ...,
+        exists=True,
+        help="Path to the input DOCX file.",
+    ),
+    output_path: Path | None = typer.Argument(
+        None,
+        help="Optional output file path. Defaults to same name with converted extension.",
+    ),
     force: bool = typer.Option(False, "--force", help="Overwrite existing output"),
 ) -> None:
-    """Convert DOCX → Markdown.
+    """
+    Convert a DOCX file to Markdown.
+
     Examples:
       docutil docx2md input.docx
       docutil docx2md input.docx output.md
@@ -129,11 +139,25 @@ def cli_docx2md(
 
 @app.command("md2docx")
 def cli_md2docx(
-    input_path: Path = typer.Argument(..., exists=True),
-    output_path: Path | None = typer.Argument(None),
+    input_path: Path = typer.Argument(
+        ...,
+        exists=True,
+        help="Path to the input markdown file.",
+    ),
+    output_path: Path | None = typer.Argument(
+        None,
+        help="Optional output file path. Defaults to same name with converted extension.",
+    ),
     force: bool = typer.Option(False, "--force", help="Overwrite existing output"),
 ) -> None:
-    """Convert Markdown → DOCX."""
+    """
+    Convert a Markdown file to DOCX.
+
+    Examples:
+      docutil md2docx input.md
+      docutil md2docx input.md output.docx
+      docutil md2docx input.md output.docx --force
+    """
 
     if output_path and output_path.exists() and not force:
         typer.echo("Output exists. Use --force to overwrite.")
@@ -149,14 +173,24 @@ def cli_md2docx(
 
 @app.command("batch")
 def cli_batch(
-    mode: str,
-    folder: Path,
-    recursive: bool = False,
-    dry_run: bool = False,
-    force: bool = False,
-    out_folder: Path | None = typer.Option(None, "--out-folder"),
-    no_progress: bool = typer.Option(False, "--no-progress"),
-    workers: int = typer.Option(1, "--workers"),
+    mode: Literal["docx2md", "md2docx"] = typer.Argument(
+        ...,
+        help="Conversion mode.",
+    ),
+    folder: Path = typer.Argument(
+        ...,
+        help="Folder containing files to convert.",
+    ),
+    recursive: bool = typer.Option(False, "--recursive", help="Search folders recursively."),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Preview changes without writing files."),
+    force: bool = typer.Option(False, "--force", help="Overwrite existing files."),
+    out_folder: Path | None = typer.Option(
+        None,
+        "--out-folder",
+        help="Optional output folder.",
+    ),
+    no_progress: bool = typer.Option(False, "--no-progress", help="Disable progress bar."),
+    workers: int = typer.Option(1, "--workers", help="Number of parallel workers."),
 ) -> None:
     """
     Batch convert files inside a folder.
@@ -221,7 +255,10 @@ def cli_inspect_docx(
 
 @app.command("scaffold")
 def cli_scaffold(
-    kind: str = typer.Argument(...),
+    kind: str = typer.Argument(
+        ...,
+        help="Template type. Currently only 'project' is supported.",
+    ),
     name: str = typer.Argument(...),
     out_dir: Path = typer.Argument(...),
     force: bool = typer.Option(False, "--force"),
